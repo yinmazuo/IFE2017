@@ -2,15 +2,27 @@ const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
-  devtool: 'inline-source-map',
-  entry: {
+  devtool: 'false',
+  entry:{
     app: './src/app.js'
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
-    publicPath: 'http://localhost:8080/',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      sourceMap: true
+    })
+  ],
   module: {
     rules: [{
       test: /\.html$/,
@@ -34,10 +46,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.json', '.css', '.scss']
-  },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
   }
 }
