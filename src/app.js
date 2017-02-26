@@ -28,9 +28,6 @@ let app21 = new DDB({
 app21.$watch('age', function(age) {
   console.log(`change age to ${age} `)
 })
-app21.$watch('name', function(name) {
-  console.log(`change name to ${name} `)
-})
 
 app21.data.name = {
   lastName: 'liang',
@@ -39,7 +36,33 @@ app21.data.name = {
 app21.data.age = 88
 
 app21.data.name.lastName
-// 这里还需要输出 '你访问了 lastName '
 app21.data.name.firstName = 'lalala'
-// 这里还需要输出 '你设置了firstName, 新的值为 lalala'
 console.log('----------DDB2--END------')
+
+//DDB3
+console.log('----------DDB3-BEGIN-------')
+let app31 = new DDB({
+  book: {
+    name: 'javascript',
+    price: 68
+  },
+  auth: 'YYYYY',
+  name: 'XXXX'
+})
+
+function test(auth) {
+  console.log(`auth has been changed --- ${auth}`)
+}
+app31.$watch('auth', test)
+// app31.$watch('auth', function (auth) {
+//   console.log(`ssssssssssssssssssssssssssss`)
+// })
+//app31.$removeWatch('auth', test)
+app31.$watch('book', function (book) {
+  console.log(`Name or price of the book has been changed --- ${JSON.stringify(book)}`)
+})
+
+app31.data.auth = 'ZZZZZZ'
+app31.data.book.name = 'CSS3'
+
+console.log('----------DDB3--END------')
